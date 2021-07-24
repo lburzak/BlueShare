@@ -1,14 +1,14 @@
+import 'package:blueshare/bluetooth_device.dart';
 import 'package:blueshare/connection_status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class ConnectionPage extends StatelessWidget {
-  final ConnectionStatus _status;
+  final ConnectionStatus status;
+  final BluetoothDevice? device;
 
-  const ConnectionPage({Key? key, required status})
-      : _status = status,
-        super(key: key);
+  const ConnectionPage({Key? key, required this.status, this.device}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -20,13 +20,13 @@ class ConnectionPage extends StatelessWidget {
               Flexible(
                 flex: 1,
                 child: Center(
-                  child: _StatusHeader(status: _status),
+                  child: _StatusHeader(status: status),
                 ),
               ),
               Flexible(
                 flex: 3,
                 child: Center(
-                  child: _StatusIcon(status: _status),
+                  child: _StatusIcon(status: status),
                 ),
               ),
               Flexible(
@@ -34,14 +34,18 @@ class ConnectionPage extends StatelessWidget {
                 child: Center(
                   child: FractionallySizedBox(
                     widthFactor: 0.8,
-                    child: Visibility(
-                      visible: _status != ConnectionStatus.connecting,
-                      child: Text(
-                        "Connect to a Bluetooth Audio device to start sharing",
-                        style: Theme.of(context).textTheme.headline5,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                    child: status == ConnectionStatus.disconnected
+                        ? Text(
+                            "Connect to a Bluetooth Audio device to start sharing",
+                            style: Theme.of(context).textTheme.headline5,
+                            textAlign: TextAlign.center,
+                          )
+                        : Visibility(
+                            visible: status == ConnectionStatus.connected,
+                            child: _DeviceInfo(
+                              device: device
+                            ),
+                          ),
                   ),
                 ),
               ),
@@ -56,9 +60,16 @@ class ConnectionPage extends StatelessWidget {
                         onPressed: () {},
                       ),
                       Visibility(
-                        visible: _status != ConnectionStatus.disconnected,
+                        visible: status != ConnectionStatus.disconnected,
                         child: _RoundButton(
                           icon: Icons.bluetooth_disabled,
+                          onPressed: () {},
+                        ),
+                      ),
+                      Visibility(
+                        visible: status == ConnectionStatus.connected,
+                        child: _RoundButton(
+                          icon: Icons.wifi_tethering,
                           onPressed: () {},
                         ),
                       )
@@ -100,7 +111,7 @@ class _StatusHeader extends StatelessWidget {
 class _StatusIcon extends StatelessWidget {
   final ConnectionStatus status;
 
-  const _StatusIcon({Key? key, required this.status});
+  const _StatusIcon({required this.status});
 
   IconData _makeStatusIcon() {
     switch (status) {
@@ -138,4 +149,19 @@ class _RoundButton extends StatelessWidget {
         onPressed: onPressed,
         icon: Icon(icon),
       ));
+}
+
+class _DeviceInfo extends StatelessWidget {
+  final BluetoothDevice? device;
+
+  const _DeviceInfo({Key? key, this.device}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return device != null
+        ? Column(
+            children: [Text(device!.name), Text(device!.address)],
+          )
+        : const SizedBox.shrink();
+  }
 }

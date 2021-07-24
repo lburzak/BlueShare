@@ -1,6 +1,7 @@
 import 'package:blueshare/connection_page.dart';
 import 'package:flutter/material.dart';
 
+import 'bluetooth_device.dart';
 import 'connection_status.dart';
 
 void main() {
@@ -30,9 +31,13 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                   fontSize: 16,
                   color: Colors.white,))),
-      home: const Scaffold(
+      home: Scaffold(
         body: ConnectionPage(
-            status: ConnectionStatus.connecting
+            device: BluetoothDevice(
+              name: "Mi True Wireless EBs Basic 2",
+              address: "53:1B:22:05:13:5B"
+            ),
+            status: ConnectionStatus.connected
         ),
       ),
     );
