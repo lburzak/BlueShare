@@ -1,8 +1,12 @@
 import 'package:blueshare/bluetooth_device.dart';
 import 'package:blueshare/connection_status.dart';
+import 'package:blueshare/status_indicators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+
+import 'controls.dart';
+import 'device_info.dart';
 
 class ConnectionPage extends StatelessWidget {
   final ConnectionStatus status;
@@ -13,14 +17,14 @@ class ConnectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buttons = [
-      _RoundButton(
+      RoundButton(
         icon: Icons.menu,
         onPressed: () {},
       )
     ];
 
     if (status != ConnectionStatus.disconnected) {
-      final disconnectButton = _RoundButton(
+      final disconnectButton = RoundButton(
         icon: Icons.bluetooth_disabled,
         onPressed: () {},
       );
@@ -29,7 +33,7 @@ class ConnectionPage extends StatelessWidget {
     }
 
     if (status == ConnectionStatus.connected) {
-      final shareButton = _RoundButton(
+      final shareButton = RoundButton(
         icon: Icons.wifi_tethering,
         onPressed: () {},
       );
@@ -46,13 +50,13 @@ class ConnectionPage extends StatelessWidget {
               Flexible(
                 flex: 1,
                 child: Center(
-                  child: _StatusHeader(status: status),
+                  child: ConnectionStatusHeader(status: status),
                 ),
               ),
               Flexible(
                 flex: 3,
                 child: Center(
-                  child: _StatusIcon(status: status),
+                  child: ConnectionStatusIcon(status: status),
                 ),
               ),
               Flexible(
@@ -68,7 +72,7 @@ class ConnectionPage extends StatelessWidget {
                           )
                         : Visibility(
                             visible: status == ConnectionStatus.connected,
-                            child: _DeviceInfo(
+                            child: DeviceInfo(
                               device: device
                             ),
                           ),
@@ -88,88 +92,5 @@ class ConnectionPage extends StatelessWidget {
           ),
         ),
       );
-  }
-}
-
-class _StatusHeader extends StatelessWidget {
-  final ConnectionStatus status;
-
-  const _StatusHeader({Key? key, required this.status}) : super(key: key);
-
-  String _makeStatusText() {
-    switch (status) {
-      case ConnectionStatus.disconnected:
-        return "Not connected";
-      case ConnectionStatus.connecting:
-        return "Connecting...";
-      case ConnectionStatus.connected:
-        return "Connected";
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      _makeStatusText(),
-      style: Theme.of(context).textTheme.headline1,
-    );
-  }
-}
-
-class _StatusIcon extends StatelessWidget {
-  final ConnectionStatus status;
-
-  const _StatusIcon({required this.status});
-
-  IconData _makeStatusIcon() {
-    switch (status) {
-      case ConnectionStatus.disconnected:
-        return Icons.bluetooth;
-      case ConnectionStatus.connecting:
-        return Icons.settings_ethernet;
-      case ConnectionStatus.connected:
-        return Icons.bluetooth_connected;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      _makeStatusIcon(),
-      size: 80,
-    );
-  }
-}
-
-class _RoundButton extends StatelessWidget {
-  final void Function()? onPressed;
-  final IconData icon;
-
-  const _RoundButton({Key? key, this.onPressed, required this.icon})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Ink(
-      decoration: ShapeDecoration(
-          color: Theme.of(context).colorScheme.onBackground,
-          shape: const CircleBorder()),
-      child: IconButton(
-        onPressed: onPressed,
-        icon: Icon(icon),
-      ));
-}
-
-class _DeviceInfo extends StatelessWidget {
-  final BluetoothDevice? device;
-
-  const _DeviceInfo({Key? key, this.device}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return device != null
-        ? Column(
-            children: [Text(device!.name), Text(device!.address)],
-          )
-        : const SizedBox.shrink();
   }
 }
