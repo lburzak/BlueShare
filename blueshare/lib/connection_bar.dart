@@ -68,14 +68,18 @@ class _ConnectionBarConnected extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Row(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            DeviceInfo(device: device),
+            DeviceInfo(
+              device: device,
+              linesAlignment: CrossAxisAlignment.start,
+              nameStyle: Theme.of(context).textTheme.headline6,
+            ),
             RoundButton(icon: Icons.wifi_tethering)
           ],
         ),
-  );
+      );
 }

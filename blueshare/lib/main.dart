@@ -69,7 +69,12 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.w300,
                 fontSize: 16,
                 color: Colors.white,
-              ))),
+              ),
+              headline6: Typography.whiteMountainView.headline6!.copyWith(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+          )),
     );
   }
 }
