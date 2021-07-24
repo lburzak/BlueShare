@@ -11,8 +11,9 @@ class DeviceInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return device != null
         ? Column(
-      children: [Text(device!.name), Text(device!.address)],
-    )
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text(device!.name), Text(device!.address)],
+          )
         : const SizedBox.shrink();
   }
 }

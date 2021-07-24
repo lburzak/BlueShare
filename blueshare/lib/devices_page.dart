@@ -6,10 +6,14 @@ import 'connection_bar.dart';
 
 class DevicesPage extends StatelessWidget {
   final ConnectionStatus status;
+  final BluetoothDevice device;
   final Stream<List<BluetoothDevice>> devicesStream;
 
   const DevicesPage(
-      {Key? key, required this.devicesStream, required this.status})
+      {Key? key,
+      required this.devicesStream,
+      required this.status,
+      required this.device})
       : super(key: key);
 
   @override
@@ -17,7 +21,11 @@ class DevicesPage extends StatelessWidget {
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Column(
           children: [
-            Center(child: ConnectionBar(status: status)),
+            Center(
+                child: ConnectionBar(
+              status: status,
+              device: device,
+            )),
             Expanded(
               child: StreamBuilder<List<BluetoothDevice>>(
                 stream: devicesStream,

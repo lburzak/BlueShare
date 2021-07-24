@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/devices': (context) => Scaffold(
           body: DevicesPage(
                 status: status,
+                device: mockDevice,
                 devicesStream: Stream.value(List.of([
                   mockDevice,
                   mockDeviceTwo,
