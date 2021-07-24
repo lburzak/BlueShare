@@ -50,7 +50,7 @@ class ConnectionPage extends StatelessWidget {
               Flexible(
                 flex: 1,
                 child: Center(
-                  child: ConnectionStatusHeader(status: status),
+                  child: ConnectionStatusHeader(status: status, style: Theme.of(context).textTheme.headline1),
                 ),
               ),
               Flexible(

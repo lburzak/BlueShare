@@ -5,8 +5,9 @@ import 'connection_status.dart';
 
 class ConnectionStatusIcon extends StatelessWidget {
   final ConnectionStatus status;
+  final double size;
 
-  const ConnectionStatusIcon({Key? key, required this.status}) : super(key: key);
+  const ConnectionStatusIcon({Key? key, required this.status, this.size = 80}) : super(key: key);
 
   IconData _makeStatusIcon() {
     switch (status) {
@@ -23,15 +24,16 @@ class ConnectionStatusIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Icon(
       _makeStatusIcon(),
-      size: 80,
+      size: size,
     );
   }
 }
 
 class ConnectionStatusHeader extends StatelessWidget {
   final ConnectionStatus status;
+  final TextStyle? style;
 
-  const ConnectionStatusHeader({Key? key, required this.status}) : super(key: key);
+  const ConnectionStatusHeader({Key? key, required this.status, this.style}) : super(key: key);
 
   String _makeStatusText() {
     switch (status) {
@@ -48,7 +50,7 @@ class ConnectionStatusHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       _makeStatusText(),
-      style: Theme.of(context).textTheme.headline1,
+      style: style,
     );
   }
 }
