@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget {
       address: "53:1B:22:05:13:5B",
       isShared: true);
 
+  final status = ConnectionStatus.connected;
+
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -27,14 +29,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => const Scaffold(
+        '/': (context) => Scaffold(
           body: ConnectionPage(
-              status: ConnectionStatus.disconnected
+              status: status,
+              device: mockDevice,
           ),
         ),
         '/devices': (context) => Scaffold(
           body: DevicesPage(
-                status: ConnectionStatus.disconnected,
+                status: status,
                 devicesStream: Stream.value(List.of([
                   mockDevice,
                   mockDeviceTwo,
