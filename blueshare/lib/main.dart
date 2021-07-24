@@ -17,7 +17,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xff334575),
-          colorScheme: const ColorScheme.dark(background: Color(0xff334575)),
+          colorScheme: const ColorScheme.dark(
+              background: Color(0xff334575),
+              onBackground: Color.fromARGB(128, 0x45, 0x5d, 0x8b)
+          ),
           textTheme: Typography.whiteMountainView.copyWith(
               headline1: Typography.whiteMountainView.headline1!.copyWith(
                   fontWeight: FontWeight.w300,
@@ -29,7 +32,7 @@ class MyApp extends StatelessWidget {
                   color: Colors.white,))),
       home: const Scaffold(
         body: ConnectionPage(
-            status: ConnectionStatus.disconnected
+            status: ConnectionStatus.connecting
         ),
       ),
     );
