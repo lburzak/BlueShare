@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
               name: "Mi True Wireless EBs Basic 2",
               address: "53:1B:22:05:13:5B"
             ),
-            status: ConnectionStatus.connected
+            status: ConnectionStatus.disconnected
         ),
       ),
     );

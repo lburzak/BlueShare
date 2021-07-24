@@ -11,7 +11,33 @@ class ConnectionPage extends StatelessWidget {
   const ConnectionPage({Key? key, required this.status, this.device}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
+  Widget build(BuildContext context) {
+    final buttons = [
+      _RoundButton(
+        icon: Icons.menu,
+        onPressed: () {},
+      )
+    ];
+
+    if (status != ConnectionStatus.disconnected) {
+      final disconnectButton = _RoundButton(
+        icon: Icons.bluetooth_disabled,
+        onPressed: () {},
+      );
+
+      buttons.add(disconnectButton);
+    }
+
+    if (status == ConnectionStatus.connected) {
+      final shareButton = _RoundButton(
+        icon: Icons.wifi_tethering,
+        onPressed: () {},
+      );
+
+      buttons.add(shareButton);
+    }
+
+    return Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
@@ -54,26 +80,7 @@ class ConnectionPage extends StatelessWidget {
                 child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _RoundButton(
-                        icon: Icons.menu,
-                        onPressed: () {},
-                      ),
-                      Visibility(
-                        visible: status != ConnectionStatus.disconnected,
-                        child: _RoundButton(
-                          icon: Icons.bluetooth_disabled,
-                          onPressed: () {},
-                        ),
-                      ),
-                      Visibility(
-                        visible: status == ConnectionStatus.connected,
-                        child: _RoundButton(
-                          icon: Icons.wifi_tethering,
-                          onPressed: () {},
-                        ),
-                      )
-                    ],
+                    children: buttons,
                   ),
                 ),
               )
@@ -81,6 +88,7 @@ class ConnectionPage extends StatelessWidget {
           ),
         ),
       );
+  }
 }
 
 class _StatusHeader extends StatelessWidget {
