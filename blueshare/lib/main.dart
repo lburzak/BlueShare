@@ -1,4 +1,5 @@
 import 'package:blueshare/connection_page.dart';
+import 'package:blueshare/devices_page.dart';
 import 'package:flutter/material.dart';
 
 import 'bluetooth_device.dart';
@@ -9,6 +10,17 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final BluetoothDevice mockDevice = const BluetoothDevice(
+      name: "Mi True Wireless EBs Basic 2",
+      address: "53:1B:22:05:13:5B"
+  );
+
+  final BluetoothDevice mockDeviceTwo = const BluetoothDevice(
+      name: "Mi True Wireless EBs Basic 2",
+      address: "53:1B:22:05:13:5B",
+      isShared: true
+  );
+
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -32,13 +44,11 @@ class MyApp extends StatelessWidget {
                   fontSize: 16,
                   color: Colors.white,))),
       home: Scaffold(
-        body: ConnectionPage(
-            device: BluetoothDevice(
-              name: "Mi True Wireless EBs Basic 2",
-              address: "53:1B:22:05:13:5B"
-            ),
-            status: ConnectionStatus.disconnected
-        ),
+        body: DevicesPage(
+          devicesStream: Stream.value(
+            List.of([mockDevice, mockDeviceTwo])
+          ),
+        )
       ),
     );
   }
