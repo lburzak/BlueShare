@@ -13,17 +13,21 @@ class ConnectionBar extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
         width: double.infinity,
         height: 80,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(11.0),
-              child: ConnectionStatusIcon(
-                status: status,
-                size: 48,
+        child: Material(
+          type: MaterialType.canvas,
+          elevation: 4,
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(11.0),
+                child: ConnectionStatusIcon(
+                  status: status,
+                  size: 48,
+                ),
               ),
-            ),
-            ConnectionStatusHeader(status: status, style: Theme.of(context).textTheme.headline2,)
-          ],
+              ConnectionStatusHeader(status: status, style: Theme.of(context).textTheme.headline2,)
+            ],
+          ),
         ),
       );
 }

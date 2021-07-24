@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
           colorScheme: const ColorScheme.dark(
               background: Color(0xff334575),
               onBackground: Color.fromARGB(128, 0x45, 0x5d, 0x8b)),
+              canvasColor: Color(0xff334575),
           textTheme: Typography.whiteMountainView.copyWith(
               headline1: Typography.whiteMountainView.headline1!.copyWith(
                   fontWeight: FontWeight.w300,
