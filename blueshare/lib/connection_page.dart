@@ -19,7 +19,9 @@ class ConnectionPage extends StatelessWidget {
     final buttons = [
       RoundButton(
         icon: Icons.menu,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/devices');
+        },
       )
     ];
 
