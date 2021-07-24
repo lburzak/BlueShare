@@ -49,8 +49,11 @@ class _DeviceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-        leading:
-            const SizedBox(height: double.infinity, child: Icon(Icons.headset)),
+        onTap: () {},
+        leading: Container(
+            constraints: const BoxConstraints(minWidth: 40.0, maxWidth: 40),
+            height: double.infinity,
+            child: const Icon(Icons.headset)),
         title: Text(device.name),
         subtitle: Text(device.address),
         trailing: device.isShared
