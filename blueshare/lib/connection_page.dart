@@ -1,14 +1,21 @@
+import 'package:blueshare/connection_status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class ConnectionPage extends StatelessWidget {
+  final ConnectionStatus _status;
+
+  const ConnectionPage({Key? key, required status})
+      : _status = status,
+        super(key: key);
+
   @override
   Widget build(BuildContext context) => Padding(
-    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Column(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
             children: [
               Flexible(
                 flex: 1,
@@ -56,6 +63,6 @@ class ConnectionPage extends StatelessWidget {
               )
             ],
           ),
-    ),
-  );
+        ),
+      );
 }
