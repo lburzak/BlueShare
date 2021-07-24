@@ -78,7 +78,7 @@ class _ConnectionBarConnected extends StatelessWidget {
               linesAlignment: CrossAxisAlignment.start,
               nameStyle: Theme.of(context).textTheme.headline6,
             ),
-            RoundButton(icon: Icons.wifi_tethering)
+            RoundButton(icon: Icons.wifi_tethering, onPressed: () {})
           ],
         ),
       );
