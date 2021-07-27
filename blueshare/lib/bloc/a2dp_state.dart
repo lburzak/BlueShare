@@ -20,5 +20,5 @@ class A2dpConnected extends A2dpState {
   const A2dpConnected(this.device);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [device];
 }
