@@ -10,14 +10,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final BluetoothDevice mockDevice = const BluetoothDevice(
-      name: "Mi True Wireless EBs Basic 2", address: "53:1B:22:05:13:5B");
-
-  final BluetoothDevice mockDeviceTwo = const BluetoothDevice(
-      name: "Mi True Wireless EBs Basic 2",
-      address: "53:1B:22:05:13:5B",
-      isShared: true);
-
   final status = ConnectionStatus.connected;
 
   const MyApp({Key? key}) : super(key: key);
