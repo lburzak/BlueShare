@@ -6,14 +6,14 @@ import 'connection_bar.dart';
 
 class DevicesPage extends StatelessWidget {
   final ConnectionStatus status;
-  final BluetoothDevice device;
+  final BluetoothDevice? device;
   final Stream<List<BluetoothDevice>> devicesStream;
 
   const DevicesPage(
       {Key? key,
       required this.devicesStream,
       required this.status,
-      required this.device})
+      this.device})
       : super(key: key);
 
   @override
