@@ -4,16 +4,25 @@ abstract class A2dpEvent extends Equatable {
   const A2dpEvent();
 }
 
-abstract class A2dpConnectionStarted extends A2dpEvent {
+class A2dpConnectionStarted extends A2dpEvent {
   const A2dpConnectionStarted();
+
+  @override
+  List<Object?> get props => [];
 }
 
-abstract class A2dpConnectionEstablished extends A2dpEvent {
+class A2dpConnectionEstablished extends A2dpEvent {
   final BluetoothDevice device;
 
   const A2dpConnectionEstablished(this.device);
+
+  @override
+  List<Object?> get props => [device];
 }
 
-abstract class A2dpConnectionDropped extends A2dpEvent {
+class A2dpConnectionDropped extends A2dpEvent {
   const A2dpConnectionDropped();
+
+  @override
+  List<Object?> get props => [];
 }
