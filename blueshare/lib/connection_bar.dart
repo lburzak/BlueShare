@@ -44,15 +44,13 @@ class _ConnectionBarDisconnected extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(11.0),
+        const Padding(
+          padding: EdgeInsets.all(11.0),
           child: ConnectionStatusIcon(
-            status: status,
             size: 48,
           ),
         ),
         ConnectionStatusHeader(
-          status: status,
           style: Theme.of(context).textTheme.headline2,
         )
       ],

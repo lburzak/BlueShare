@@ -1,5 +1,4 @@
 import 'package:blueshare/bluetooth_device.dart';
-import 'package:blueshare/connection_status.dart';
 import 'package:blueshare/status_indicators.dart';
 import 'package:blueshare/util/mock.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,57 +11,21 @@ import 'controls.dart';
 import 'device_info.dart';
 
 class ConnectionPage extends StatelessWidget {
-  final ConnectionStatus status;
-  final BluetoothDevice? device;
+  const ConnectionPage({Key? key}) : super(key: key);
 
-  const ConnectionPage({Key? key, required this.status, this.device})
-      : super(key: key);
-
-  A2dpEvent nextEvent() {
-    switch (status) {
-      case ConnectionStatus.disconnected:
-        return const A2dpConnectionStarted();
-      case ConnectionStatus.connecting:
-        return const A2dpConnectionEstablished(mockDevice);
-      case ConnectionStatus.connected:
-        return const A2dpConnectionDropped();
+  A2dpEvent nextEvent(A2dpState state) {
+    if (state is A2dpDisconnected) {
+      return const A2dpConnectionStarted();
+    } else if (state is A2dpConnecting) {
+      return const A2dpConnectionEstablished(mockDevice);
+    } else {
+      return const A2dpConnectionDropped();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final buttons = [
-      RoundButton(
-        icon: Icons.menu,
-        onPressed: () {
-          Navigator.pushNamed(context, '/devices');
-        },
-      ),
-      RoundButton(
-        icon: Icons.stream,
-        onPressed: () {
-          context.read<A2dpBloc>().add(nextEvent());
-        },
-      )
-    ];
-
-    if (status != ConnectionStatus.disconnected) {
-      final disconnectButton = RoundButton(
-        icon: Icons.bluetooth_disabled,
-        onPressed: () {},
-      );
-
-      buttons.add(disconnectButton);
-    }
-
-    if (status == ConnectionStatus.connected) {
-      final shareButton = RoundButton(
-        icon: Icons.wifi_tethering,
-        onPressed: () {},
-      );
-
-      buttons.add(shareButton);
-    }
+    final state = context.select((A2dpBloc bloc) => bloc.state);
 
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -74,14 +37,13 @@ class ConnectionPage extends StatelessWidget {
               flex: 1,
               child: Center(
                 child: ConnectionStatusHeader(
-                    status: status,
                     style: Theme.of(context).textTheme.headline1),
               ),
             ),
-            Flexible(
+            const Flexible(
               flex: 3,
               child: Center(
-                child: ConnectionStatusIcon(status: status),
+                child: ConnectionStatusIcon(),
               ),
             ),
             Flexible(
@@ -89,15 +51,15 @@ class ConnectionPage extends StatelessWidget {
               child: Center(
                 child: FractionallySizedBox(
                   widthFactor: 0.8,
-                  child: status == ConnectionStatus.disconnected
+                  child: state is A2dpDisconnected
                       ? Text(
                           "Connect to a Bluetooth Audio device to start sharing",
                           style: Theme.of(context).textTheme.headline5,
                           textAlign: TextAlign.center,
                         )
                       : Visibility(
-                          visible: status == ConnectionStatus.connected,
-                          child: DeviceInfo(device: device),
+                          visible: state is A2dpConnected,
+                          child: DeviceInfo(device: context.selectA2dpDevice()),
                         ),
                 ),
               ),
@@ -107,7 +69,28 @@ class ConnectionPage extends StatelessWidget {
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: buttons,
+                  children: [
+                    RoundButton(
+                      icon: Icons.menu,
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/devices');
+                      },
+                    ),
+                    RoundButton(
+                      icon: Icons.stream,
+                      onPressed: () {
+                        context.read<A2dpBloc>().add(nextEvent(state));
+                      },
+                    ),
+                    RoundButton(
+                      icon: Icons.bluetooth_disabled,
+                      onPressed: state is A2dpDisconnected ? null : _disconnect,
+                    ),
+                    RoundButton(
+                      icon: Icons.wifi_tethering,
+                      onPressed: state is A2dpConnected ? _share : null,
+                    )
+                  ],
                 ),
               ),
             )
@@ -116,4 +99,15 @@ class ConnectionPage extends StatelessWidget {
       ),
     );
   }
+
+  _disconnect() {}
+
+  _share() {}
+}
+
+extension on BuildContext {
+  BluetoothDevice? selectA2dpDevice() => select((A2dpBloc bloc) {
+        final state = bloc.state;
+        return state is A2dpConnected ? state.device : null;
+      });
 }

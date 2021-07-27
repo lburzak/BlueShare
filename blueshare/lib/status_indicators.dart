@@ -1,55 +1,51 @@
+import 'package:blueshare/bloc/a2dp_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'connection_status.dart';
+import 'package:provider/src/provider.dart';
 
 class ConnectionStatusIcon extends StatelessWidget {
-  final ConnectionStatus status;
   final double size;
 
-  const ConnectionStatusIcon({Key? key, required this.status, this.size = 80}) : super(key: key);
+  const ConnectionStatusIcon({Key? key, this.size = 80}) : super(key: key);
 
-  IconData _makeStatusIcon() {
-    switch (status) {
-      case ConnectionStatus.disconnected:
-        return Icons.bluetooth;
-      case ConnectionStatus.connecting:
-        return Icons.settings_ethernet;
-      case ConnectionStatus.connected:
-        return Icons.bluetooth_connected;
+  IconData _makeStatusIcon(A2dpState state) {
+    if (state is A2dpConnecting) {
+      return Icons.settings_ethernet;
+    } else if (state is A2dpConnected) {
+      return Icons.bluetooth_connected;
+    } else {
+      return Icons.bluetooth;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Icon(
-      _makeStatusIcon(),
+      _makeStatusIcon(context.select((A2dpBloc bloc) => bloc.state)),
       size: size,
     );
   }
 }
 
 class ConnectionStatusHeader extends StatelessWidget {
-  final ConnectionStatus status;
   final TextStyle? style;
 
-  const ConnectionStatusHeader({Key? key, required this.status, this.style}) : super(key: key);
+  const ConnectionStatusHeader({Key? key, this.style}) : super(key: key);
 
-  String _makeStatusText() {
-    switch (status) {
-      case ConnectionStatus.disconnected:
-        return "Not connected";
-      case ConnectionStatus.connecting:
-        return "Connecting...";
-      case ConnectionStatus.connected:
-        return "Connected";
+  String _makeStatusText(A2dpState state) {
+    if (state is A2dpConnecting) {
+      return "Connecting...";
+    } else if (state is A2dpConnected) {
+      return "Connected";
+    } else {
+      return "Not connected";
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      _makeStatusText(),
+      _makeStatusText(context.select((A2dpBloc bloc) => bloc.state)),
       style: style,
     );
   }

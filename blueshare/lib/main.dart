@@ -25,15 +25,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/': (context) {
-            final state = context.select((A2dpBloc bloc) => bloc.state);
-            return Scaffold(
-              body: ConnectionPage(
-                status: state.toConnectionStatus(),
-                device: state is A2dpConnected ? state.device : null,
-              ),
-            );
-          },
+          '/': (context) => const Scaffold(
+            body: ConnectionPage(),
+          ),
           '/devices': (context) {
             final state = context.select((A2dpBloc bloc) => bloc.state);
 
