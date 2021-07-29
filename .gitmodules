@@ -1,0 +1,3 @@
+[submodule "flutter_a2dp"]
+	path = flutter_a2dp
+	url = git@github.com:polydome/flutter_a2dp.git

@@ -3,6 +3,8 @@ import 'package:blueshare/connection_page.dart';
 import 'package:blueshare/devices_page.dart';
 import 'package:blueshare/util/mock.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_a2dp/bluetooth_device.dart';
+import 'package:flutter_a2dp/flutter_a2dp.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'connection_status.dart';
@@ -18,8 +20,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final a2dpBloc = A2dpBloc();
+
+    final a2dp = A2dp();
+    
+    a2dp.status.listen((status) {
+      switch (status) {
+        case A2dpStatus.disconnected:
+          a2dpBloc.add(const A2dpConnectionDropped());
+          break;
+        case A2dpStatus.connecting:
+          a2dpBloc.add(const A2dpConnectionStarted());
+          break;
+        case A2dpStatus.connected:
+          a2dp.connectedSink.then((BluetoothDevice? device) {
+            if (device != null) {
+              a2dpBloc.add(A2dpConnectionEstablished(device));
+            }
+          });
+          break;
+        case A2dpStatus.disconnecting:
+          break;
+      }
+    });
+
     return BlocProvider(
-      create: (context) => A2dpBloc(),
+      create: (context) => a2dpBloc,
       child: MaterialApp(
         title: 'BlueShare',
         debugShowCheckedModeBanner: false,
@@ -35,14 +61,7 @@ class MyApp extends StatelessWidget {
               body: DevicesPage(
                 status: state.toConnectionStatus(),
                 device: state is A2dpConnected ? state.device : null,
-                devicesStream: Stream.value(List.of([
-                  mockDevice,
-                  mockDeviceTwo,
-                  mockDevice,
-                  mockDevice,
-                  mockDevice,
-                  mockDevice
-                ])),
+                devicesStream: Stream.fromFuture(getBondedSinks()),
               ),
             );
           }

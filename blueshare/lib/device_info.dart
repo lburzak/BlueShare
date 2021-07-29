@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
-
-import 'bluetooth_device.dart';
+import 'package:flutter_a2dp/bluetooth_device.dart';
 
 class DeviceInfo extends StatelessWidget {
   final BluetoothDevice? device;

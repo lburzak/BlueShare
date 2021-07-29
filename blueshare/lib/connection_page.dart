@@ -1,9 +1,9 @@
-import 'package:blueshare/bluetooth_device.dart';
 import 'package:blueshare/status_indicators.dart';
 import 'package:blueshare/util/mock.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_a2dp/bluetooth_device.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/a2dp_bloc.dart';
@@ -16,8 +16,6 @@ class ConnectionPage extends StatelessWidget {
   A2dpEvent nextEvent(A2dpState state) {
     if (state is A2dpDisconnected) {
       return const A2dpConnectionStarted();
-    } else if (state is A2dpConnecting) {
-      return const A2dpConnectionEstablished(mockDevice);
     } else {
       return const A2dpConnectionDropped();
     }

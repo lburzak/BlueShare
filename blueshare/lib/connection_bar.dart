@@ -1,9 +1,9 @@
-import 'package:blueshare/bluetooth_device.dart';
 import 'package:blueshare/controls.dart';
 import 'package:blueshare/device_info.dart';
 import 'package:blueshare/status_indicators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_a2dp/bluetooth_device.dart';
 
 import 'connection_status.dart';
 

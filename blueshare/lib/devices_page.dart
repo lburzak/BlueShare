@@ -1,7 +1,10 @@
+import 'package:blueshare/bloc/a2dp_bloc.dart';
 import 'package:blueshare/connection_status.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_a2dp/bluetooth_device.dart';
+import 'package:flutter_a2dp/flutter_a2dp.dart';
+import 'package:provider/src/provider.dart';
 
-import 'bluetooth_device.dart';
 import 'connection_bar.dart';
 
 class DevicesPage extends StatelessWidget {
@@ -49,14 +52,16 @@ class _DeviceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-        onTap: () {},
+        onTap: () {
+          context.read<A2dpBloc>().add(A2dpConnectionRequested(device));
+        },
         leading: Container(
             constraints: const BoxConstraints(minWidth: 40.0, maxWidth: 40),
             height: double.infinity,
             child: const Icon(Icons.headset)),
         title: Text(device.name),
         subtitle: Text(device.address),
-        trailing: device.isShared
+        trailing: true
             ? const SizedBox(
                 height: double.infinity, child: Icon(Icons.wifi_tethering))
             : null,

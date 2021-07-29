@@ -26,3 +26,12 @@ class A2dpConnectionDropped extends A2dpEvent {
   @override
   List<Object?> get props => [];
 }
+
+class A2dpConnectionRequested extends A2dpEvent {
+  final BluetoothDevice device;
+
+  const A2dpConnectionRequested(this.device);
+
+  @override
+  List<Object> get props => [];
+}
