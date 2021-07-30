@@ -33,5 +33,10 @@ class A2dpConnectionRequested extends A2dpEvent {
   const A2dpConnectionRequested(this.device);
 
   @override
+  List<Object> get props => [device];
+}
+
+class A2dpDisconnectRequested extends A2dpEvent {
+  @override
   List<Object> get props => [];
 }

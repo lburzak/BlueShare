@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_a2dp/bluetooth_device.dart';
+import 'package:flutter_a2dp/flutter_a2dp.dart';
 
 part 'a2dp_event.dart';
 part 'a2dp_state.dart';
 
 class A2dpBloc extends Bloc<A2dpEvent, A2dpState> {
-  A2dpBloc() : super(A2dpDisconnected());
+  final A2dp a2dp;
+  
+  A2dpBloc(this.a2dp) : super(A2dpDisconnected());
 
   @override
   Stream<A2dpState> mapEventToState(
@@ -22,6 +25,8 @@ class A2dpBloc extends Bloc<A2dpEvent, A2dpState> {
       yield A2dpDisconnected();
     } else if (event is A2dpConnectionRequested) {
       event.device.connectWithA2dp();
+    } else if (event is A2dpDisconnectRequested) {
+      a2dp.connectedSink.then((value) => value!.disconnect());
     }
   }
 }

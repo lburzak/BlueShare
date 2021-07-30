@@ -20,10 +20,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final a2dpBloc = A2dpBloc();
-
     final a2dp = A2dp();
-    
+    final a2dpBloc = A2dpBloc(a2dp);
+
+
     a2dp.status.listen((status) {
       switch (status) {
         case A2dpStatus.disconnected:

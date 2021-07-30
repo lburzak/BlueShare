@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_a2dp/bluetooth_device.dart';
+import 'package:flutter_a2dp/flutter_a2dp.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/a2dp_bloc.dart';
@@ -82,7 +83,7 @@ class ConnectionPage extends StatelessWidget {
                     ),
                     RoundButton(
                       icon: Icons.bluetooth_disabled,
-                      onPressed: state is A2dpDisconnected ? null : _disconnect,
+                      onPressed: state is A2dpDisconnected ? null : () { _disconnect(context); },
                     ),
                     RoundButton(
                       icon: Icons.wifi_tethering,
@@ -98,7 +99,9 @@ class ConnectionPage extends StatelessWidget {
     );
   }
 
-  _disconnect() {}
+  _disconnect(BuildContext context) {
+    context.read<A2dpBloc>().add(A2dpDisconnectRequested());
+  }
 
   _share() {}
 }
